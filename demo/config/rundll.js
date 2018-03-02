@@ -5,7 +5,7 @@ const library = "[name]_lib";
 const distPath = path.resolve(__dirname, "../dist");
 const dllConfig = {
 	entry: {
-		vendors: [path.resolve(__dirname, "../src/utils/a.js")]
+		vendors: [path.resolve(__dirname, "../src/utils/a.js"), path.resolve(__dirname, "../src/utils/b.js")]
 	},
 
 	output: {
@@ -21,7 +21,8 @@ const dllConfig = {
 		new webpack.DllPlugin({
 			path: path.join(distPath, "[name]-manifest.json"),
 			// This must match the output.library option above
-			name: library
+			name: library,
+			context: path.join(__dirname, "..")
 		})
 	]
 };

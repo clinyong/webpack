@@ -2,21 +2,19 @@ const webpack = require("../../");
 const path = require("path");
 
 const config = {
-	entry: path.resolve(__dirname, "../src/index.js"),
+	entry: {
+		index: ["webpack-hot-middleware/client", path.resolve(__dirname, "../src/index.js")]
+	},
 	output: {
 		path: path.resolve(__dirname, "../dist"),
-		filename: "bundle.js"
+		filename: "[name].js"
 	},
 	optimization: {
-		minimize: false
+		minimize: false,
+		concatenateModules: false
 	},
-	plugins: [
-		new webpack.DllReferencePlugin({
-			manifest: require("../dist/vendors-manifest.json")
-		})
-	]
+	plugins: [new webpack.HotModuleReplacementPlugin()],
+	mode: "development"
 };
 
-webpack(config, err => {
-	if (err) console.log(err);
-});
+exports.compiler = webpack(config);
